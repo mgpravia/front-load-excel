@@ -4,8 +4,8 @@ FROM registry.access.redhat.com/ubi8/nginx-120:latest
 # Copia los archivos HTML al directorio de Nginx
 COPY *.html /usr/share/nginx/html/
 
-# Cambia permisos para asegurar que el contenido sea accesible por el usuario que ejecuta Nginx
-RUN chmod -R a+r /usr/share/nginx/html
+# Copia la configuración de Nginx personalizada
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Cambia el usuario para ejecutar Nginx con permisos limitados
 USER 1001
@@ -15,3 +15,4 @@ EXPOSE 8080
 
 # Ejecuta Nginx en primer plano
 CMD ["nginx", "-g", "daemon off;"]
+

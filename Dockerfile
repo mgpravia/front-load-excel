@@ -5,6 +5,13 @@ FROM registry.access.redhat.com/ubi8/nginx-120:latest
 USER root
 RUN rm -rf /usr/share/nginx/html/*
 
+# Crea directorios necesarios en /dev/shm
+RUN mkdir -p /dev/shm/nginx/client_temp \
+              /dev/shm/nginx/proxy_temp \
+              /dev/shm/nginx/fastcgi_temp \
+              /dev/shm/nginx/uwsgi_temp \
+              /dev/shm/nginx/scgi_temp
+
 # Copia los archivos de la página web al directorio de Nginx
 COPY . /usr/share/nginx/html
 
@@ -22,6 +29,7 @@ EXPOSE 8080
 
 # Comando para ejecutar Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
 

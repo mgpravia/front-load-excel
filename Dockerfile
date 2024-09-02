@@ -7,8 +7,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copia los archivos de la página web al directorio de Nginx
 COPY . /usr/share/nginx/html
 
-# Copia una configuración Nginx modificada
-COPY nginx.conf /etc/nginx/nginx.conf
+# Crea los directorios necesarios con los permisos correctos
+RUN mkdir -p /var/cache/nginx/client_temp && \
+    chmod -R 777 /var/cache/nginx
 
 # Expone el puerto 8080 para OpenShift
 EXPOSE 8080

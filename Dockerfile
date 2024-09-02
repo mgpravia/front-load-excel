@@ -1,26 +1,27 @@
-# Usa la imagen oficial de Nginx como base
-FROM nginx:alpine
+# Usa una imagen base de Nginx proporcionada por Red Hat para OpenShift
+FROM registry.redhat.io/rhel8/nginx-120:1-152.1695817066
 
 # Elimina la configuración por defecto de Nginx
-#RUN rm -rf /usr/share/nginx/html/*
+USER root
+RUN rm -rf /var/lib/nginx/html/*
 
 # Copia los archivos de la página web al directorio de Nginx
-COPY . /usr/share/nginx/html
+COPY . /var/lib/nginx/html
 
-# Crea los directorios necesarios y asigna permisos
-#RUN mkdir -p /var/cache/nginx/client_temp && \
-#    chmod -R 777 /var/cache/nginx
+# Copia la configuración modificada de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Monta un volumen temporal
-#VOLUME /var/cache/nginx
+# Ajusta los permisos para compatibilidad con OpenShift
+RUN chown -R 1001:0 /var/lib/nginx/html /etc/nginx/nginx.conf
+
+# Cambia el usuario para ejecutar Nginx con permisos limitados
+USER 1001
 
 # Expone el puerto 8080 para OpenShift
 EXPOSE 8080
 
-# Cambia la configuración de Nginx para usar el puerto 8080
-RUN sed -i 's/80;/8080;/g' /etc/nginx/conf.d/default.conf
-
 # Comando para ejecutar Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
 
 

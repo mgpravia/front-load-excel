@@ -7,6 +7,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copia los archivos de la página web al directorio de Nginx
 COPY . /usr/share/nginx/html
 
+# Copia una configuración Nginx modificada
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expone el puerto 8080 para OpenShift
 EXPOSE 8080
 
@@ -15,3 +18,4 @@ RUN sed -i 's/80/8080/g' /etc/nginx/conf.d/default.conf
 
 # Comando para ejecutar Nginx
 CMD ["nginx", "-g", "daemon off;"]
+

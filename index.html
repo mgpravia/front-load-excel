@@ -23,7 +23,7 @@
 
             // http://localhost:5000/upload-excel    
             try {
-                const response = await fetch('http://api-load-excel-nirvana-qa.apps.ocptest.gp.inet/upload-excel', {
+                const response = await fetch('http://api-load-excel-nirvana-qa.apps.ocptest.gp.inet/api/v1/loadSchedule', {
                     method: 'POST',
                     body: file,
                 }); 
